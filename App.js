@@ -41,8 +41,31 @@ class HomePage extends Component {
 }
 
 class LoginPage extends Component {
+  constructor(props) {
+    super(props)
+  }
+  handleLogin() {
+    fetch('https://api.terminal.wulvshi.com/api-v2/user/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: JSON.stringify({
+        action: 'manage',
+        username: '临时测试',
+        password: '123456'
+      })
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   render() {
-    const { navigation, value } = this.props
+    const { navigation, username, password } = this.props
     return (
       <View style={style.container}>
         <Image
@@ -51,15 +74,18 @@ class LoginPage extends Component {
         />
         <TextInput
           placeholder="请输入账号"
+          textContentType="username"
           clearButtonMode="while-editing"
           style={{ width: '55%', height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5, marginBottom: 10 }}
-          value={value}
+          value={username}
         />
         <TextInput
           clearButtonMode
+          textContentType="password"
+          secureTextEntry={true}
           placeholder="请输入密码"
           style={{ width: '55%', height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5 }}
-          value={value}
+          value={password}
         />
         <Button
           title="登录"
